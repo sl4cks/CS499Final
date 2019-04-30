@@ -6,13 +6,10 @@ class Poem:
             file = open(poem_path, "r")
             for line in file.readlines():
                 self._lines.append(self.Line(line))  # might need to be extend instead of append
+        print(self._lines)
 
     def __str__(self):
-        string = []
-        for line in self._lines:
-            str.append(line.__str__())
-
-        return str(string)
+        return "heyo"
 
     def read_poem(self, poem_path):
         file = open(poem_path, "r")
@@ -33,8 +30,8 @@ class Poem:
         def __str__(self):
             string = ""
             for word in self._words:
-                string += word
-            return string
+                string += " " + str(word)
+            return string[1:] # pop the first character, an extra space
 
         class Word:
 
@@ -49,7 +46,7 @@ class Poem:
 
 def __main__():
     poem = Poem("poem.txt")
-    print(poem)
+    # print(poem)
 
 
 if __name__ == "__main__":
