@@ -9,7 +9,7 @@ class Poem:
                 self._lines.append(self.Line(line))  # might need to be extend instead of append
 
     def __str__(self):
-        return str(self._raw_lines)
+        return "".join(self._raw_lines)
 
         return string[1:]
 
