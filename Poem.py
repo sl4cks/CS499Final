@@ -2,14 +2,16 @@ class Poem:
 
     def __init__(self, poem_path=None):
         self._lines = []  # create empty list
-        if poem_path is None:
+        if poem_path is not None:
             file = open(poem_path, "r")
-            for line in file.readlines():
+            self._raw_lines = file.readlines()
+            for line in self._raw_lines:
                 self._lines.append(self.Line(line))  # might need to be extend instead of append
-        print(self._lines)
 
     def __str__(self):
-        return "heyo"
+        return str(self._raw_lines)
+
+        return string[1:]
 
     def read_poem(self, poem_path):
         file = open(poem_path, "r")
@@ -46,7 +48,7 @@ class Poem:
 
 def __main__():
     poem = Poem("poem.txt")
-    # print(poem)
+    print(poem)
 
 
 if __name__ == "__main__":
