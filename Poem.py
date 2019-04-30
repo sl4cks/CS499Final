@@ -1,7 +1,7 @@
 class Poem:
 
-    def __init__(self, poem_path = None):
-        if(poem_path != None):
+    def __init__(self, poem_path=None):
+        if (poem_path != None):
             file = open(poem_path, "r")
             self._lines = file.readlines()
 
@@ -15,10 +15,17 @@ class Poem:
     def get_line(self, line_number):
         return self._lines[line_number]
 
+    def __iter__(self):
+        return self._lines.__iter__()
+
+    def __next__(self):
+        return self._lines.__next__()
+
 
 def __main__():
     poem = Poem("poem.txt")
-    poem.print_lines()
+    print(poem.get_line(0))
 
-if(__name__ == "__main__"):
+
+if (__name__ == "__main__"):
     __main__()
