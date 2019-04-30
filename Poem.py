@@ -1,4 +1,3 @@
-
 class Poem:
 
     def __init__(self, poem_path = None):
