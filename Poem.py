@@ -21,6 +21,16 @@ class Poem:
     def __next__(self):
         return self._lines.__next__()
 
+    class Line:
+
+        def __init__(self):
+            self.line = "test" #filler
+
+        class Word:
+
+            def __init__(self):
+                self.word = "word" #filler
+
 
 def __main__():
     poem = Poem("poem.txt")
