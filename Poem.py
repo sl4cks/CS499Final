@@ -12,6 +12,9 @@ class Poem:
         file = open(poem_path, "r")
         self._lines = file.readlines()
 
+    def get_line(self, line_number):
+        return self._lines[line_number]
+
 
 def __main__():
     poem = Poem("poem.txt")
