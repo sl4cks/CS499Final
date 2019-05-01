@@ -11,8 +11,6 @@ class Poem:
     def __str__(self):
         return "".join(self._raw_lines)
 
-        return string[1:]
-
     def read_poem(self, poem_path):
         file = open(poem_path, "r")
         self._lines = [] # create empty list
