@@ -1,3 +1,5 @@
+import syllables as syl
+
 class Poem:
 
     def __init__(self, poem_path=None):
@@ -28,16 +30,20 @@ class Poem:
                 self._words.append(self.Word(word))
 
         def __str__(self):
+            return "".join(self._words)
             string = ""
             for word in self._words:
                 string += " " + str(word)
             return string[1:] # pop the first character, an extra space
 
+        def get_word(self, word_number):
+            return self._words[word_number]
+
         class Word:
 
             def __init__(self, word):
                 self.word = word
-                # maybe here we put in constructing a midi message from the word?
+                self.syllables = syl.estimate(word)
 
             # for printing, simply return the stored word
             def __str__(self):
@@ -46,7 +52,7 @@ class Poem:
 
 def __main__():
     poem = Poem("poem.txt")
-    print(poem)
+    print(poem.get_line(0))
 
 
 if __name__ == "__main__":
