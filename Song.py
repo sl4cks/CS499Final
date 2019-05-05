@@ -20,6 +20,8 @@ class Song:
 
     def song_from_poem(self, text_file):
         poem = Poem(text_file) # read the file as a Poem object
+        chord = self._arpeggios["major"]
+        for line in poem._lines:
 
     def write_song(self, file_name):
         root = 60

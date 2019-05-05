@@ -22,6 +22,12 @@ class Poem:
     def get_line(self, line_number):
         return self.lines[line_number]
 
+    def total_syllables(self):
+        sum = 0
+        for line in self.lines:
+            sum += line.total_syllables()
+        return sum
+
     class Line:
 
         def __init__(self, line):
@@ -37,6 +43,13 @@ class Poem:
 
         def get_word(self, word_number):
             return self.words[word_number]
+
+        def total_syllables(self):
+            sum = 0
+            for word in self.words:
+                sum += len(word.syllables)
+
+            return sum
 
         class Word:
 
