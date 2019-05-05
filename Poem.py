@@ -30,7 +30,6 @@ class Poem:
                 self._words.append(self.Word(word))
 
         def __str__(self):
-            return "".join(self._words)
             string = ""
             for word in self._words:
                 string += " " + str(word)
