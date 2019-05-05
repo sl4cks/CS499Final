@@ -47,7 +47,7 @@ class Poem:
         def total_syllables(self):
             sum = 0
             for word in self.words:
-                sum += len(word.syllables)
+                sum += word.syllables
 
             return sum
 

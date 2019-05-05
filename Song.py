@@ -1,8 +1,7 @@
 import mido
 from mido import Message, MidiFile, MidiTrack, MetaMessage
 import time
-import random
-import Poem
+from Poem import Poem
 
 class Song:
 
