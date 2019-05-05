@@ -3,40 +3,40 @@ import syllables as syl
 class Poem:
 
     def __init__(self, poem_path=None):
-        self._lines = []  # create empty list
+        self.lines = []  # create empty list
         if poem_path is not None:
             file = open(poem_path, "r")
             self._raw_lines = file.readlines()
             for line in self._raw_lines:
-                self._lines.append(self.Line(line))  # might need to be extend instead of append
+                self.lines.append(self.Line(line))  # might need to be extend instead of append
 
     def __str__(self):
         return "".join(self._raw_lines)
 
     def read_poem(self, poem_path):
         file = open(poem_path, "r")
-        self._lines = [] # create empty list
+        self.lines = [] # create empty list
         for line in file.readlines():
-            self._lines.append(self.Line(line)) # might need to be extend instead of append
+            self.lines.append(self.Line(line)) # might need to be extend instead of append
 
     def get_line(self, line_number):
-        return self._lines[line_number]
+        return self.lines[line_number]
 
     class Line:
 
         def __init__(self, line):
-            self._words = []
+            self.words = []
             for word in line.split():
-                self._words.append(self.Word(word))
+                self.words.append(self.Word(word))
 
         def __str__(self):
             string = ""
-            for word in self._words:
+            for word in self.words:
                 string += " " + str(word)
             return string[1:] # pop the first character, an extra space
 
         def get_word(self, word_number):
-            return self._words[word_number]
+            return self.words[word_number]
 
         class Word:
 
