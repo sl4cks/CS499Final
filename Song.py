@@ -17,7 +17,7 @@ class Song:
                            "major7": [0, 4, 7, 11],
                            "minor7": [0, 3, 7, 10],
                            "dom7": [0, 4, 7, 10]}
-    def sum_syllable(self, syllable):
+    def sum_string(self, syllable):
         sum = 0
         for letter in str(syllable):
             sum += ord(letter)
@@ -34,15 +34,16 @@ class Song:
         root = 60 + (poem.total_syllables() % 12)
 
         # iterate over each syllable
-        for line in poem:
-            for word in line:
-                for syllable in word.syllables:
-                    # determine pitch by summing characters
-                    pitch = self.sum_syllable(syllable) % len(chord)
-                    # determine duration by length of syllable
-                    duration = (len(syllable) % 4)+1
-                    # add the new note to our local list of notes
-                    self.notes.append(self.Note(root+chord[pitch], duration))
+        for line in poem.lines:
+            for word in line.words:
+                # determine pitch by summing characters
+                pitch = (self.sum_string(str(word))) % len(chord)
+
+                # determine duration by length of syllable
+                duration = (word.syllables % 4)+1
+
+                # add the new note to our local list of notes
+                self.notes.append(self.Note(root+chord[pitch], duration))
 
     def write_song(self, file_name):
         mid = MidiFile(type=0) # 0 type means all messages are on one track
