@@ -27,33 +27,33 @@ class Song:
 
     def song_from_poem(self, text_file):
         poem = Poem(text_file) # read the file as a Poem object
+
         # pick a chord to arpeggiate over
         chord = self._arpeggios["major"]
+
         # choose a root to our arpeggio
         root = 60 + (poem.total_syllables() % 12)
-        mid = MidiFile(type=0)  # 0 type means all messages are on one track
-        track = MidiTrack()
-        track.append(MetaMessage("set_tempo", tempo=mido.bpm2tempo(self.bpm)))
 
+        # iterate over each syllable
         for line in poem:
             for word in line:
                 for syllable in word.syllables:
+                    # determine pitch by summing characters
                     pitch = self.sum_syllable(syllable) % len(chord)
+                    # determine duration by length of syllable
                     duration = (len(syllable) % 4)+1
-                    self.notes.append(self.Note(root+chord[pitch], mid.ticks_per_beat*duration))
+                    # add the new note to our local list of notes
+                    self.notes.append(self.Note(root+chord[pitch], duration))
 
-    def write_song(self, file_name, root=60, chord="major"):
-        root = 60
-        arp = [root, root+4, root+8, root+12]
+    def write_song(self, file_name):
         mid = MidiFile(type=0) # 0 type means all messages are on one track
         track = MidiTrack()
         mid.tracks.append(track)
         track.append(MetaMessage("set_tempo", tempo=mido.bpm2tempo(self.bpm)))
 
-        for i in range(50):
-            pitch = arp[random.randint(0, 3)]
-            track.append(Message("note_on", note=pitch, velocity=127, time=0))
-            track.append(Message("note_on", note=pitch, velocity=0, time=random.randint(1,4)*250))
+        for note in self.notes:
+            track.append(Message("note_on", note=note.pitch, velocity=127, time=0))
+            track.append(Message("note_on", note=note.pitch, velocity=0, time=note.duration*mid.ticks_per_beat))
 
         mid.save(file_name)
 
@@ -72,8 +72,9 @@ class Song:
 
 
 def __main__():
-    song = Song(240)
-    file = "test.mid"
+    song = Song(120)
+    file = "poem.mid"
+    song.song_from_poem("poem.txt")
     song.write_song(file)
     song.play(file, 'IAC Driver Bus 1')
 
