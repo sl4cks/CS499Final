@@ -9,6 +9,7 @@ class Song:
         self.notes = []
         self.bpm = bpm
         self.beat = mido.bpm2tempo(bpm)
+        self._scale_intervals = [0, 2, 4, 5, 7, 9, 11, 12]
 
         # define arpeggios
         self._arpeggios = {"major": [0, 4, 7, 12],
@@ -16,7 +17,9 @@ class Song:
                            "diminished": [0, 3, 6, 12],
                            "major7": [0, 4, 7, 11],
                            "minor7": [0, 3, 7, 10],
-                           "dom7": [0, 4, 7, 10]}
+                           "dom7": [0, 4, 7, 10],
+                           "scale": [0,1,2,3,4,5,6,7,8,9,10,11]}
+
     def sum_string(self, syllable):
         sum = 0
         for letter in str(syllable):
@@ -27,23 +30,26 @@ class Song:
     def song_from_poem(self, text_file):
         poem = Poem(text_file) # read the file as a Poem object
 
-        # pick a chord to arpeggiate over
-        chord = self._arpeggios["major"]
-
         # choose a root to our arpeggio
         root = 60 + (poem.total_syllables() % 12)
 
         # iterate over each syllable
         for line in poem.lines:
+            chord_root = root + self._scale_intervals[(self.sum_string(str(line)) % 8)]
             for word in line.words:
+                if chord_root == 1 or chord_root == 3 or chord_root == 5:
+                    chord_type = "major"
+                else:
+                    chord_type = "minor"
+
                 # determine pitch by summing characters
-                pitch = (self.sum_string(str(word))) % len(chord)
+                pitch = (self.sum_string(str(word))) % len(self._arpeggios[chord_type])
 
                 # determine duration by length of syllable
                 duration = (word.syllables % 4)+1
 
                 # add the new note to our local list of notes
-                self.notes.append(self.Note(root+chord[pitch], duration))
+                self.notes.append(self.Note(chord_root+self._arpeggios[chord_type][pitch], duration))
 
     def write_song(self, file_name):
         mid = MidiFile(type=0) # 0 type means all messages are on one track
@@ -72,11 +78,11 @@ class Song:
 
 
 def __main__():
-    song = Song(120)
-    file = "poem.mid"
-    song.song_from_poem("poem.txt")
+    song = Song(360)
+    file = "new_poem.mid"
+    song.song_from_poem("wasteland.txt")
     song.write_song(file)
-    song.play(file, 'IAC Driver Bus 1')
+    # song.play(file, 'IAC Driver Bus 1')
 
 
 if __name__ == "__main__":
