@@ -52,8 +52,8 @@ class Song:
 
     def write_song(self, file_name):
         mid = MidiFile(type=1) # 0 type means all messages are on one track
-        track_pitch = [0, 12, -12, -24]
-        track_num = 4
+        track_pitch = [0, -12]
+        track_num = 2
 
         tracks = []
         for i in range(track_num):
