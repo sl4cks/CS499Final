@@ -45,7 +45,7 @@ class Song:
                 pitch = (self.sum_string(str(word))) % len(self._arpeggios[chord_type])
 
                 # determine duration by length of syllable
-                duration = (word.syllables % 4)+1
+                duration = (word.syllables % 3)+1
 
                 # add the new note to our local list of notes
                 self.notes.append(self.Note(chord_root+self._arpeggios[chord_type][pitch], duration))
