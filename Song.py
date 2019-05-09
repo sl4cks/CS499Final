@@ -78,8 +78,8 @@ class Song:
 
 def __main__():
     song = Song(360)
-    file = "new_poem.mid"
-    song.song_from_poem("wasteland.txt")
+    file = "mariner.mid"
+    song.song_from_poem("mariner.txt")
     song.write_song(file)
     # song.play(file, 'IAC Driver Bus 1')
 
