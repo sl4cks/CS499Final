@@ -52,21 +52,19 @@ class Song:
 
     def write_song(self, file_name):
         mid = MidiFile(type=1) # 0 type means all messages are on one track
-        track = MidiTrack()
-        mid.tracks.append(track)
-        track.append(MetaMessage("set_tempo", tempo=mido.bpm2tempo(self.bpm)))
+        track_pitch = [0, 12, -12, -24]
+        track_num = 4
 
-        new_track = MidiTrack()
-        mid.tracks.append(new_track)
-        new_track.append(MetaMessage("set_tempo", tempo=mido.bpm2tempo(self.bpm)))
+        tracks = []
+        for i in range(track_num):
+            track = MidiTrack()
+            tracks.append(track)
+            mid.tracks.append(track)
+            track.append(MetaMessage("set_tempo", tempo=mido.bpm2tempo(self.bpm)))
 
         for i, note in enumerate(self.notes):
-            if i % 2 == 0:
-                track.append(Message("note_on", note=note.pitch, velocity=127, time=0))
-                track.append(Message("note_on", note=note.pitch, velocity=0, time=note.duration*mid.ticks_per_beat))
-            else:
-                new_track.append(Message("note_on", note=note.pitch, velocity=127, time=0))
-                new_track.append(Message("note_on", note=note.pitch, velocity=0, time=note.duration*mid.ticks_per_beat))
+            tracks[i%track_num].append(Message("note_on", note=note.pitch+track_pitch[i%track_num], velocity=127, time=0))
+            tracks[i%track_num].append(Message("note_on", note=note.pitch+track_pitch[i%track_num], velocity=0, time=note.duration*mid.ticks_per_beat))
 
         mid.save(file_name)
 
